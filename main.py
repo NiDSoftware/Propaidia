@@ -34,7 +34,7 @@ class appUi:
         self.frm_right.grid(row=1, column=2, sticky="wens")
         
         frm.grid_rowconfigure(1, weight=1)
-        frm.grid_columnconfigure(0, weight=1)
+        #frm.grid_columnconfigure(0, weight=1)
         frm.grid_columnconfigure(2, weight=2)
 
         lbl_title = tk.Label(self.frm_top, text="Μαθαίνω την Προπαίδεια", font=("verdana",22), bg="lightblue")
@@ -44,13 +44,32 @@ class appUi:
         self.frame_left()
 
     def frame_left(self):
-        lbl_name = tk.Label(self.frm_left, text= "Το όνομά σου είναι: ", font=("verdana",10), bg="lightgreen")
-        lbl_getname = tk.Label(self.frm_left, textvariable = self.user, font=("verdana",10), bg="lightgreen")
+        lbl_name = tk.Label(self.frm_left, text= "Το όνομά σου είναι: ", font=("verdana",10))#, bg="lightgreen")
+        lbl_getname = tk.Label(self.frm_left, textvariable = self.user, width=15, font=("verdana",10), anchor="w")#, bg="lightgreen")
         btn_name = tk.Button(self.frm_left, text="Όνομα", font=("verdana",10), command=self.win_username)
 
-        lbl_name.grid(row=0, column=0)
+        lbl_propaidia = tk.Label(self.frm_left, text= "Θέλεις να μάθεις την προπαίδεια του:", font=("verdana",10))#, bg="lightgreen")
+        self.spin_propaidia= ttk.Spinbox(self.frm_left, from_=1, to=10, width=5, font=("verdana",12))
+        self.spin_propaidia.set(5)
+        self.checkbox_var = tk.IntVar()
+        #self.checkbox_var=1
+        checkbox_random = tk.Checkbutton(self.frm_left, text="Τυχαία επιλογή", font=("verdana",10), variable = self.checkbox_var, command=self.checkbox_check)
+
+        lbl_name.grid(row=0, column=0, sticky="w")
         lbl_getname.grid(row=0, column=1)
-        btn_name.grid(row=0, column=2)
+        btn_name.grid(row=0, column=2, pady=5, padx=5)
+
+        lbl_propaidia.grid(row=1,column=0, columnspan=2, ipady=20, sticky="w")
+        self.spin_propaidia.grid(row=1,column=2)
+        checkbox_random.grid(row=2,column=2)
+    
+    def checkbox_check(self):
+        if self.checkbox_var.get() ==1:
+            self.menu_checkbtn_var.set(1)
+            self.spin_propaidia["state"]="disable"
+        else:
+            self.menu_checkbtn_var.set(0)
+            self.spin_propaidia["state"]="normal"
 
     def current_time(self):
         self.display_time.set(tm.strftime("%H:%M:%S    %A, %d %B %Y"))
@@ -60,16 +79,27 @@ class appUi:
         self.menubar = tk.Menu(self.root)
         self.root.config(menu=self.menubar)
 
+        self.menu_checkbtn_var =tk.IntVar()
+
         self.filemenu = tk.Menu(self.menubar, tearoff=False)
         self.filemenu.add_command(label="Όνομα",command=self.win_username)
+        self.filemenu.add_checkbutton(label="Τυχαία επιλογή", variable=self.menu_checkbtn_var, command=self.menu_checkbtn_check)
         self.filemenu.add_separator()
         self.filemenu.add_command(label="Έξοδος", command=self.root.destroy)
-        self.menubar.add_cascade(label="Αρχείο", menu=self.filemenu)
+        self.menubar.add_cascade(label="Επιλογές", menu=self.filemenu)
 
         self.aboutmenu =tk.Menu(self.menubar, tearoff=False)
         self.aboutmenu.add_command(label="Οδηγίες")
         self.menubar.add_cascade(label="Περίληψη", menu=self.aboutmenu)
-          
+    
+    def menu_checkbtn_check(self):
+        if self.menu_checkbtn_var.get()==1:
+            self.checkbox_var.set(1)
+            self.spin_propaidia["state"]="disable"
+        else:
+            self.checkbox_var.set(0)
+            self.spin_propaidia["state"]="normal"
+
     def frm_statusBar(self):
         self.frm_sbar= tk.Frame(self.root, bd=1, relief="sunken")
         self.display_time = tk.StringVar()
