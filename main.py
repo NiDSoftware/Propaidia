@@ -44,24 +44,24 @@ class appUi:
         self.frame_left()
 
     def frame_left(self):
-        lbl_name = tk.Label(self.frm_left, text= "Το όνομά σου είναι: ", font=("verdana",10))#, bg="lightgreen")
-        lbl_getname = tk.Label(self.frm_left, textvariable = self.user, width=15, font=("verdana",10), anchor="w")#, bg="lightgreen")
+        lbl_name = tk.Label(self.frm_left, text= "Το όνομά σου είναι: ", font=("verdana",10), bg="lightgreen")
+        lbl_getname = tk.Label(self.frm_left, textvariable = self.user, width=15, font=("verdana",10), anchor="w", bg="lightgreen")
         btn_name = tk.Button(self.frm_left, text="Όνομα", font=("verdana",10), command=self.win_username)
 
-        lbl_propaidia = tk.Label(self.frm_left, text= "Θέλεις να μάθεις την προπαίδεια του:", font=("verdana",10))#, bg="lightgreen")
+        lbl_propaidia = tk.Label(self.frm_left, text= "Θέλεις να μάθεις την προπαίδεια του:", font=("verdana",10), bg="lightgreen")
         self.spin_propaidia= ttk.Spinbox(self.frm_left, from_=1, to=10, width=5, font=("verdana",12))
         self.spin_propaidia.set(5)
         self.checkbox_var = tk.IntVar()
         #self.checkbox_var=1
-        checkbox_random = tk.Checkbutton(self.frm_left, text="Τυχαία επιλογή", font=("verdana",10), variable = self.checkbox_var, command=self.checkbox_check)
+        checkbox_random = tk.Checkbutton(self.frm_left, text="Τυχαία επιλογή", font=("verdana",10), bg="lightgreen", relief="groove", variable = self.checkbox_var, command=self.checkbox_check)
 
         lbl_name.grid(row=0, column=0, sticky="w")
         lbl_getname.grid(row=0, column=1)
-        btn_name.grid(row=0, column=2, pady=5, padx=5)
+        btn_name.grid(row=0, column=2, pady=5, sticky="we")
 
         lbl_propaidia.grid(row=1,column=0, columnspan=2, ipady=20, sticky="w")
-        self.spin_propaidia.grid(row=1,column=2)
-        checkbox_random.grid(row=2,column=2)
+        self.spin_propaidia.grid(row=1,column=2, padx=5, sticky="we")
+        checkbox_random.grid(row=2,column=2, sticky="e")
     
     def checkbox_check(self):
         if self.checkbox_var.get() ==1:
